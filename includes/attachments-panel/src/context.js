@@ -176,6 +176,26 @@ function useProvideAttachments() {
 		});
 	};
 
+	const handleImageUnattach = (attachmentId) => {
+		if (!attachmentId) {
+			return;
+		}
+
+		apiFetch({
+			path: `/prc-api/v3/attachments-panel/unattach/${attachmentId}`,
+			method: 'POST',
+		})
+			.then((data) => {
+				if (data.success) {
+					// Refresh the attachments list
+					updateAttachments();
+				}
+			})
+			.catch((error) => {
+				console.error('Error unattaching image:', error);
+			});
+	};
+
 	const insertedImageIds = useMemo(() => {
 		console.log(
 			'mergeBlocksAndReturnIdClientPairs for insertedImageIds...',
@@ -254,8 +274,10 @@ function useProvideAttachments() {
 		onDropImage,
 		handleImageInsertion,
 		handleImageReplacement,
+		handleImageUnattach,
 		mediaEditor,
 		openMediaLibrary,
+		imageBlockCurrentlySelected: selectedBlockIsImageBlock,
 	};
 }
 

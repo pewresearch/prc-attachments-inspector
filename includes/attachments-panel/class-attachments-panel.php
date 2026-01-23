@@ -119,6 +119,14 @@ class Attachments_Panel {
 				'permission_callback' => function () {
 					return current_user_can( 'edit_posts' );
 				},
+			),
+			array(
+				'route'               => '/attachments-panel/unattach/(?P<attachment_id>\d+)',
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'unattach_attachment' ),
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
 			)
 		);
 		return $endpoints;
@@ -134,6 +142,44 @@ class Attachments_Panel {
 	public function get_attachments_restfully( $request ) {
 		$post_id = $request->get_param( 'post_id' );
 		return $this->get_attachments_by_post_id( $post_id );
+	}
+
+	/**
+	 * Unattach an attachment by setting its parent to 0.
+	 *
+	 * @since    1.0.0
+	 * @param    WP_REST_Request $request The request object.
+	 * @return   array|WP_Error
+	 */
+	public function unattach_attachment( $request ) {
+		$attachment_id = $request->get_param( 'attachment_id' );
+
+		if ( ! $attachment_id ) {
+			return new WP_Error( 'missing_attachment_id', 'Attachment ID is required', array( 'status' => 400 ) );
+		}
+
+		// Verify the attachment exists
+		if ( 'attachment' !== get_post_type( $attachment_id ) ) {
+			return new WP_Error( 'invalid_attachment', 'Invalid attachment ID', array( 'status' => 404 ) );
+		}
+
+		// Update the post parent to 0 (unattach)
+		$result = wp_update_post(
+			array(
+				'ID'          => $attachment_id,
+				'post_parent' => 0,
+			)
+		);
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		return array(
+			'success'       => true,
+			'attachment_id' => $attachment_id,
+			'message'       => 'Attachment unattached successfully',
+		);
 	}
 
 	/**

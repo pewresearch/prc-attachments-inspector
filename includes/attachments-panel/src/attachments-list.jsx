@@ -1,7 +1,6 @@
 /**
  * External Dependencies
  */
-import { imgSrcToBlob } from 'blob-util';
 
 /**
  * WordPress Dependencies

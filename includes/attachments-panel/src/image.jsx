@@ -1,22 +1,28 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { useKeyPress } from '@prc/hooks';
+import { moreVertical, linkOff, edit, replace, addCard, flipVertical } from '@wordpress/icons';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { store as blockEditorStore } from '@wordpress/block-editor';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
 import { useDispatch } from '@wordpress/data';
 import {
 	BaseControl,
 	Tooltip,
 	SelectControl,
 	Modal,
+	DropdownMenu,
+	Flex,
+	FlexItem,
+	FlexBlock,
 } from '@wordpress/components';
+
 
 /**
  * Internal Dependencies
@@ -45,9 +51,9 @@ function Image({
 	editLink,
 	attachmentLink,
 }) {
-	const { insertedImageIds, handleImageInsertion, handleImageReplacement } =
+	const { insertedImageIds, handleImageInsertion, handleImageReplacement, handleImageUnattach, imageBlockCurrentlySelected } =
 		useAttachments();
-	const { selectBlock } = useDispatch(blockEditorStore);
+	const { selectBlock, removeBlock } = useDispatch(blockEditorStore);
 
 	const isActive = Object.keys(insertedImageIds).includes(id.toString());
 	const [modalActive, toggleModal] = useState(false);
@@ -55,50 +61,106 @@ function Image({
 	const optionKeyPressed = useKeyPress('Alt');
 	const commandKeyPressed = useKeyPress('Meta');
 
+	const [controls, setControls] = useState([]);
+
+	useEffect(() => {
+		const defaults = [
+			{
+				title: __('Edit in Media Library', 'prc-block-plugins'),
+				icon: edit,
+				onClick: () => {
+					window.open(editLink, '_blank');
+				},
+			},
+			{
+				title: __('Unattach from Post', 'prc-block-plugins'),
+				icon: linkOff,
+				onClick: () => {
+					if (window.confirm(__('Are you sure you want to unattach this image?', 'prc-block-plugins'))) {
+						handleImageUnattach(id);
+					}
+				},
+			}
+		];
+		if ( imageBlockCurrentlySelected ) {
+			defaults.push({
+				title: __('Replace Selection in Editor', 'prc-block-plugins'),
+				icon: replace,
+				onClick: () => {
+					handleImageReplacement(id, url, attachmentLink, alt, caption);
+				},
+			});
+		}
+		if ( isActive ) {
+			defaults.push({
+				title: __('Remove from Editor', 'prc-block-plugins'),
+				icon: flipVertical,
+				onClick: () => {
+					if (isActive) {
+						const { clientId } = insertedImageIds[id];
+						selectBlock(clientId);
+						removeBlock(clientId);
+					}
+				}
+			});
+			defaults.push({
+				title: __('Select in Editor', 'prc-block-plugins'),
+				icon: 'editor-code',
+				onClick: () => {
+					selectBlock(insertedImageIds[id].clientId);
+				},
+			});
+		} else {
+			defaults.push({
+				title: __('Insert into Editor', 'prc-block-plugins'),
+				icon: addCard,
+				onClick: () => {
+					toggleModal(true);
+				},
+			});
+		}
+		setControls(defaults);
+	}, [id, url, alt, caption, editLink, attachmentLink, isActive, insertedImageIds, handleImageInsertion, handleImageReplacement, handleImageUnattach, selectBlock]);
+
 	// const ref = useRef(null);
-
-	// const handleRightClick = (ev) => {
-	// 	ev.preventDefault();
-	// 	alert('success!');
-	// 	// Open image editor...
-	// 	return false;
-	// };
-
-	// useEffect(() => {
-	// 	const img = ref.current;
-	// 	// subscribe event
-	// 	img.addEventListener('contextmenu', handleRightClick, false);
-	// 	return () => {
-	// 		// unsubscribe event
-	// 		img.removeEventListener('contextmenu', handleRightClick);
-	// 	};
-	// }, []);
 
 	return (
 		<BaseControl>
-			<button
-				type="button"
-				key={id}
-				className={classNames('prc-attachments-list__image', {
-					'prc-attachments-list__image--in-use': isActive,
-				})}
-				onClick={() => {
-					if (isActive) {
-						selectBlock(insertedImageIds[id].clientId);
-					} else if (shiftKeyPressed) {
-						handleImageInsertion(id, url, '640-wide', alt, caption);
-					} else if (optionKeyPressed) {
-						handleImageReplacement(id, url, attachmentLink);
-					} else if (commandKeyPressed) {
-						window.open(editLink, '_blank');
-					} else {
-						toggleModal(true);
-					}
-				}}
-			>
-				<img src={url} alt="A attachment in the editor" />
-				<div>{title}</div>
-			</button>
+			<div className="prc-attachments-list__image-wrapper">
+				<button
+					type="button"
+					key={id}
+					className={clsx({
+						'prc-attachments-list__image': true,
+						'prc-attachments-list__image--in-use': isActive,
+					})}
+					onClick={() => {
+						if (isActive) {
+							selectBlock(insertedImageIds[id].clientId);
+						} else if (shiftKeyPressed) {
+							handleImageInsertion(id, url, '640-wide', alt, caption);
+						} else if (optionKeyPressed) {
+							handleImageReplacement(id, url, attachmentLink);
+						} else if (commandKeyPressed) {
+							window.open(editLink, '_blank');
+						} else {
+							toggleModal(true);
+						}
+					}}
+				>
+					<img src={url} alt={alt} />
+				</button>
+				<Flex justify="space-between" align="center" gap={2}>
+					<FlexBlock>{title}</FlexBlock>
+					<FlexItem>
+						<DropdownMenu
+							icon={moreVertical}
+							label={__('Image actions', 'prc-block-plugins')}
+							controls={controls}
+						/>
+					</FlexItem>
+				</Flex>
+			</div>
 			{modalActive && (
 				<Modal
 					title={__('Insert Image Into Editor', 'prc-block-plugins')}

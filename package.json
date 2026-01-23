@@ -1,22 +1,22 @@
 {
-    "name": "@prc/attachments-inspector",
-    "version": "1.0.0",
-    "description": "PRC Attachments Inspector is a module for PRC Platform that...",
-    "scripts": {
-        "build": "wp-scripts build",
-        "test": "wp-scripts test-playwright",
-        "test:env:start": "wp-env start",
-        "test:env:stop": "wp-env stop",
-        "test:env:clean": "wp-env clean all && wp-env start",
-        "test:env:destroy": "wp-env destroy"
-    },
-    "devDependencies": {
-        "@playwright/test": "^1.51.1",
-        "@wordpress/e2e-test-utils-playwright": "^1.21.0",
-        "@wordpress/env": "^10.21.0",
-        "@wordpress/scripts": "^30.14.1"
-    },
-    "dependencies": {
-        "@wordpress/icons": "^10.21.0"
-    }
+	"name": "@prc/attachments-inspector",
+	"version": "1.0.0",
+	"description": "PRC Attachments Inspector is a module for PRC Platform that...",
+	"scripts": {
+		"build": "wp-scripts build --source-path=includes/attachments-panel/src --output-path=includes/attachments-panel/build; wp-scripts build --source-path=includes/attachments-inspector/src --output-path=includes/attachments-inspector/build",
+		"test": "wp-scripts test-playwright",
+		"test:env:start": "wp-env start",
+		"test:env:stop": "wp-env stop",
+		"test:env:clean": "wp-env clean all && wp-env start",
+		"test:env:destroy": "wp-env destroy"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.51.1",
+		"@wordpress/e2e-test-utils-playwright": "^1.21.0",
+		"@wordpress/env": "^10.21.0",
+		"@wordpress/scripts": "^30.14.1"
+	},
+	"dependencies": {
+		"@wordpress/icons": "^10.21.0"
+	}
 }

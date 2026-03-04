@@ -6,7 +6,7 @@ const testDir = './tests';
 export default defineConfig({
 	...baseConfig,
 	testDir,
-	outputDir: './tests/artifacts',
+	outputDir: './tests/artifacts/results',
 	use: {
 		...baseConfig.use,
 		video: 'on',

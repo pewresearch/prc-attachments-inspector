@@ -14,10 +14,7 @@ import {
 	TextControl,
 	CardDivider,
 } from '@wordpress/components';
-import { Fragment } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { useSelect, select } from '@wordpress/data';
-import { uploadMedia } from '@wordpress/media-utils';
 
 /**
  * Internal Dependencies
@@ -84,16 +81,23 @@ function Images() {
 				.toLowerCase()
 				.includes(debouncedSearchTerm.toLowerCase())
 	);
-	console.log({ filteredAttachments });
 
 	return (
-		<div>
-			{loading ? (
-				<Spinner />
-			) : (
-				filteredAttachments.map((image) => <Image {...image} />)
-			)}
-		</div>
+		<PanelBody
+			title={__('Images')}
+			initialOpen={attachments.length > 0}
+			className="prc-attachments-list__images"
+		>
+			<BaseControl help={__(
+				'Click on an image to select the desired size to insert into the editor. Alternatively, press "Shift + Click" an image to insert it at 640 pixels wide. To replace your selected image block, press "Opt + Click" on the desired image.'
+			)}>
+				{loading ? (
+					<Spinner />
+				) : (
+					filteredAttachments.map((image) => <Image {...image} />)
+				)}
+			</BaseControl>
+		</PanelBody>
 	);
 }
 
@@ -126,14 +130,24 @@ function Files() {
 				.includes(debouncedSearchTerm.toLowerCase())
 	);
 
+	if (0 === filteredAttachments.length) {
+		return null;
+	}
+
 	return (
-		<div>
-			{loading ? (
-				<Spinner />
-			) : (
-				filteredAttachments.map((file) => <File {...file} />)
-			)}
-		</div>
+		<PanelBody
+			title={__('Files')}
+			className="prc-attachments-list__files"
+			initialOpen={false}
+		>
+			<div>
+				{loading ? (
+					<Spinner />
+				) : (
+					filteredAttachments.map((file) => <File {...file} />)
+				)}
+			</div>
+		</PanelBody>
 	);
 }
 
@@ -142,7 +156,7 @@ function AttachmentsList() {
 		useAttachments();
 
 	return (
-		<Fragment>
+		<>
 			<div
 				style={{
 					position: 'relative',
@@ -155,12 +169,9 @@ function AttachmentsList() {
 						'Drag and drop files to attach them to this post or manage existing attachments.',
 						'prc-block-plugins'
 					)}
-					help={__(
-						'Click on an image to select the desired size to insert into the editor. Alternatively, press "Shift + Click" an image to insert it at 640 pixels wide. To replace your selected image block, press "Opt + Click" on the desired image.'
-					)}
 				>
 					{0 < attachments.length && (
-						<Fragment>
+						<>
 							<Button
 								variant="secondary"
 								onClick={() => mediaEditor.open()}
@@ -168,7 +179,7 @@ function AttachmentsList() {
 								Edit Attachments
 							</Button>
 							<CardDivider />
-						</Fragment>
+						</>
 					)}
 					<TextControl
 						label={__('Filter Attachments')}
@@ -178,21 +189,9 @@ function AttachmentsList() {
 					<DragAndDropZone />
 				</BaseControl>
 			</div>
-			<PanelBody
-				title={__('Images')}
-				initialOpen={attachments.length > 0}
-				className="prc-attachments-list__images"
-			>
-				<Images />
-			</PanelBody>
-			<PanelBody
-				title={__('Files')}
-				className="prc-attachments-list__files"
-				initialOpen={false}
-			>
-				<Files />
-			</PanelBody>
-		</Fragment>
+			<Images />
+			<Files />
+		</>
 	);
 }
 

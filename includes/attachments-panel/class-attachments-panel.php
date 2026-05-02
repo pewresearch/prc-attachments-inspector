@@ -42,7 +42,7 @@ class Attachments_Panel {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'enqueue_block_plugin_assets' );
-			$loader->add_filter( 'prc_api_endpoints', $this, 'register_endpoint' );
+			$loader->add_action( 'rest_api_init', $this, 'register_endpoint' );
 		}
 	}
 
@@ -109,19 +109,25 @@ class Attachments_Panel {
 	 * @param    array $endpoints The endpoints.
 	 * @return   array
 	 */
-	public function register_endpoint( $endpoints ) {
-		array_push(
-			$endpoints,
+	/**
+	 * @hook rest_api_init
+	 */
+	public function register_endpoint() {
+		register_rest_route(
+			'prc-api/v3',
+			'/attachments-panel/get/(?P<post_id>\d+)',
 			array(
-				'route'               => '/attachments-panel/get/(?P<post_id>\d+)',
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_attachments_restfully' ),
 				'permission_callback' => function () {
 					return current_user_can( 'edit_posts' );
 				},
-			),
+			)
+		);
+		register_rest_route(
+			'prc-api/v3',
+			'/attachments-panel/unattach/(?P<attachment_id>\d+)',
 			array(
-				'route'               => '/attachments-panel/unattach/(?P<attachment_id>\d+)',
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'unattach_attachment' ),
 				'permission_callback' => function () {
@@ -129,7 +135,6 @@ class Attachments_Panel {
 				},
 			)
 		);
-		return $endpoints;
 	}
 
 	/**

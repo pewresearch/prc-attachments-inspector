@@ -44,7 +44,7 @@ class Attachment_Report {
 			$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_frontend_assets' );
 			$loader->add_filter( 'the_content', $this, 'add_report_to_content' );
 			$loader->add_action( 'admin_enqueue_scripts', $this, 'register_assets' );
-			$loader->add_filter( 'prc_api_endpoints', $this, 'register_endpoint' );
+			$loader->add_action( 'rest_api_init', $this, 'register_endpoint' );
 			$loader->add_action( 'ac/ready', $this, 'register_column' );
 		}
 	}
@@ -168,15 +168,16 @@ class Attachment_Report {
 	/**
 	 * Adds the attachment report endpoint to the REST API
 	 *
-	 * @hook prc_api_endpoints
-	 * @param mixed $endpoints
-	 * @return array
+	 * @hook rest_api_init
 	 */
-	public function register_endpoint( $endpoints ) {
-		array_push(
-			$endpoints,
+	/**
+	 * @hook rest_api_init
+	 */
+	public function register_endpoint() {
+		register_rest_route(
+			'prc-api/v3',
+			'/attachments-report/get/(?P<post_id>\d+)',
 			array(
-				'route'               => '/attachments-report/get/(?P<post_id>\d+)',
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_attachments_restfully' ),
 				'args'                => array(
@@ -198,7 +199,6 @@ class Attachment_Report {
 				},
 			)
 		);
-		return $endpoints;
 	}
 
 	/**

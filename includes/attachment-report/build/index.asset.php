@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('classnames', 'prc-hooks', 'react', 'react-jsx-runtime', 'wp-api-fetch', 'wp-components', 'wp-dom-ready', 'wp-element'), 'version' => '50205cf8ab715a2d7a5e');
+<?php return array('dependencies' => array('classnames', 'prc-hooks', 'react', 'react-jsx-runtime', 'wp-api-fetch', 'wp-components', 'wp-dom-ready', 'wp-element'), 'version' => '37f2c30e1fa82f0b497a');

@@ -75,6 +75,7 @@ class Plugin {
 
 		require_once plugin_dir_path( __DIR__ ) . '/includes/attachment-report/class-attachment-report.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/attachments-panel/class-attachments-panel.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/image-mismatch/class-image-mismatch.php';
 	}
 
 	/**
@@ -86,6 +87,7 @@ class Plugin {
 	private function init_dependencies() {
 		new Attachment_Report( $this->get_loader() );
 		new Attachments_Panel( $this->get_loader() );
+		new Image_Mismatch( $this->get_loader() );
 	}
 
 	/**

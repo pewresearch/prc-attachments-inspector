@@ -28,6 +28,29 @@ const attachmentsContext = createContext();
 // eslint-disable-next-line no-undef
 const { media } = window.wp;
 
+/**
+ * Try to infer a `sizeSlug` from a legacy image URL by reading the trailing
+ * "NNNpx" hint in the filename (e.g. "...640px.png" → "640-wide").  Returns
+ * null when no hint is present or the inferred width is not a known PRC
+ * "wide" size, so callers can fall back to a sensible default.
+ *
+ * Mirrors `inferSizeSlugFromUrl` in includes/image-mismatch/src/detect-mismatch.js.
+ *
+ * @param {string} url
+ * @return {string|null}
+ */
+function inferSizeSlugFromUrl(url) {
+	if (!url) {
+		return null;
+	}
+	const match = url.match(/(\d{2,4})px\.(?:png|jpe?g|gif|webp)/i);
+	if (!match) {
+		return null;
+	}
+	const KNOWN_WIDTHS = ['200', '260', '310', '420', '640', '740', '1400'];
+	return KNOWN_WIDTHS.includes(match[1]) ? `${match[1]}-wide` : null;
+}
+
 function useProvideAttachments() {
 	const {
 		postId,
@@ -132,9 +155,14 @@ function useProvideAttachments() {
 	const handleImageReplacement = (id, url, attachmentLink, alt, caption) => {
 		// Check that what we're replacing is actually an image.
 		if (selectedBlockIsImageBlock) {
-			// get the attachment page
-			// get the sizeSlug from the existing block if it exists..., otherwise default to 640-wide
-			const sizeSlug = selectedBlockAttrs.sizeSlug || '310-wide';
+			// sizeSlug resolution:
+			//   1. existing block's sizeSlug (preserve user intent)
+			//   2. inferred from legacy URL's "NNNpx" filename hint
+			//   3. "full" (render at original uploaded size)
+			const sizeSlug =
+				selectedBlockAttrs.sizeSlug ||
+				inferSizeSlugFromUrl(selectedBlockAttrs.url) ||
+				'full';
 			const attrs = selectedBlockAttrs;
 			attrs.id = id;
 			attrs.url = url;

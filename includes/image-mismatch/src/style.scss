@@ -1,0 +1,61 @@
+.prc-image-mismatch-picker {
+	min-width: 260px;
+	padding: 8px;
+
+	&__title {
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--wp-admin-theme-color, #3858e9);
+		margin-bottom: 8px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		padding: 6px 4px;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		text-align: left;
+		border-radius: 2px;
+
+		&:hover {
+			background: var(--wp-components-color-background, #f0f0f1);
+		}
+
+		img {
+			width: 48px;
+			height: 48px;
+			object-fit: cover;
+			flex-shrink: 0;
+			border-radius: 2px;
+		}
+	}
+
+	&__item-meta {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		overflow: hidden;
+	}
+
+	&__item-title {
+		font-size: 13px;
+		font-weight: 500;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&__item-filename {
+		font-size: 11px;
+		color: #757575;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}

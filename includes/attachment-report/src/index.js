@@ -6,7 +6,7 @@
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { render, Fragment, useMemo, useState } from '@wordpress/element';
+import { createRoot, Fragment, useMemo, useState } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -69,9 +69,8 @@ function initFrontend() {
 		const { posttype, postid } = attach.dataset;
 		const postType = posttype;
 		const postId = postid;
-		render(
-			<FrontendAttachmentsReport postId={postId} postType={postType} />,
-			attach
+		createRoot(attach).render(
+			<FrontendAttachmentsReport postId={postId} postType={postType} />
 		);
 	}
 }
@@ -84,12 +83,8 @@ function initButtons() {
 		const { posttype, postid } = button.dataset;
 		const postType = posttype;
 		const postId = postid;
-		render(
-			<AdminColumnAttachmentsReport
-				postId={postId}
-				postType={postType}
-			/>,
-			button
+		createRoot(button).render(
+			<AdminColumnAttachmentsReport postId={postId} postType={postType} />
 		);
 	});
 }

@@ -3,41 +3,41 @@
 > wp-scripts build --source-path=includes/attachments-panel/src --output-path=includes/attachments-panel/build && wp-scripts build --source-path=includes/attachment-report/src --output-path=includes/attachment-report/build && wp-scripts build --source-path=includes/image-mismatch/src --output-path=includes/image-mismatch/build
 
 assets by chunk 13.5 KiB (name: index)
-  asset [1m[32mindex.js[39m[22m 13.2 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (name: index)
-  asset [1m[32mindex.asset.php[39m[22m 340 bytes [1m[32m[emitted][39m[22m [1m[33m[compared for emit][39m[22m (name: index)
-assets by path [1m[32m./*.css[39m[22m 902 bytes
-  asset [1m[32m./style-index-rtl.css[39m[22m 451 bytes [1m[32m[emitted][39m[22m (name: ./style-index) (id hint: style)
-  asset [1m[32m./style-index.css[39m[22m 451 bytes [1m[32m[emitted][39m[22m (name: ./style-index) (id hint: style)
-Entrypoint [1mindex[39m[22m 14.4 KiB = [1m[32m./style-index.css[39m[22m 451 bytes [1m[32m./style-index-rtl.css[39m[22m 451 bytes [1m[32mindex.js[39m[22m 13.2 KiB [1m[32mindex.asset.php[39m[22m 340 bytes
-orphan modules 237 KiB (javascript) 937 bytes (runtime) [1m[33m[orphan][39m[22m 346 modules
+  asset index.js 13.2 KiB [emitted] [minimized] (name: index)
+  asset index.asset.php 340 bytes [emitted] [compared for emit] (name: index)
+assets by path ./*.css 902 bytes
+  asset ./style-index-rtl.css 451 bytes [emitted] (name: ./style-index) (id hint: style)
+  asset ./style-index.css 451 bytes [emitted] (name: ./style-index) (id hint: style)
+Entrypoint index 14.4 KiB = ./style-index.css 451 bytes ./style-index-rtl.css 451 bytes index.js 13.2 KiB index.asset.php 340 bytes
+orphan modules 237 KiB (javascript) 937 bytes (runtime) [orphan] 346 modules
 runtime modules 3.08 KiB 5 modules
-built modules 28.7 KiB (javascript) 450 bytes (css/mini-extract) [1m[33m[built][39m[22m
-  [1m./includes/attachments-panel/src/index.js + 32 modules[39m[22m 28.7 KiB [1m[31m[not cacheable][39m[22m [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-  css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]![1m./includes/attachments-panel/src/style.scss[39m[22m 450 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-webpack 5.106.2 compiled [1m[32msuccessfully[39m[22m in 9488 ms
+built modules 28.7 KiB (javascript) 450 bytes (css/mini-extract) [built]
+  ./includes/attachments-panel/src/index.js + 32 modules 28.7 KiB [not cacheable] [built] [code generated]
+  css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/attachments-panel/src/style.scss 450 bytes [built] [code generated]
+webpack 5.106.2 compiled successfully in 5110 ms
 assets by chunk 28.3 KiB (name: index)
-  asset [1m[32mindex.js[39m[22m 28.1 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (name: index)
-  asset [1m[32mindex.asset.php[39m[22m 202 bytes [1m[32m[emitted][39m[22m [1m[33m[compared for emit][39m[22m (name: index)
-assets by path [1m[32m./*.css[39m[22m 2 bytes
-  asset [1m[32m./style-index-rtl.css[39m[22m 1 bytes [1m[32m[emitted][39m[22m (name: ./style-index) (id hint: style)
-  asset [1m[32m./style-index.css[39m[22m 1 bytes [1m[32m[emitted][39m[22m (name: ./style-index) (id hint: style)
-Entrypoint [1mindex[39m[22m 28.3 KiB = [1m[32m./style-index.css[39m[22m 1 bytes [1m[32m./style-index-rtl.css[39m[22m 1 bytes [1m[32mindex.js[39m[22m 28.1 KiB [1m[32mindex.asset.php[39m[22m 202 bytes
-orphan modules 98.3 KiB (javascript) 937 bytes (runtime) [1m[33m[orphan][39m[22m 50 modules
+  asset index.js 28.1 KiB [emitted] [minimized] (name: index)
+  asset index.asset.php 202 bytes [emitted] [compared for emit] (name: index)
+assets by path ./*.css 2 bytes
+  asset ./style-index-rtl.css 1 bytes [emitted] (name: ./style-index) (id hint: style)
+  asset ./style-index.css 1 bytes [emitted] (name: ./style-index) (id hint: style)
+Entrypoint index 28.3 KiB = ./style-index.css 1 bytes ./style-index-rtl.css 1 bytes index.js 28.1 KiB index.asset.php 202 bytes
+orphan modules 98.3 KiB (javascript) 937 bytes (runtime) [orphan] 50 modules
 runtime modules 3.08 KiB 5 modules
-built modules 78.2 KiB (javascript) 0 bytes (css/mini-extract) [1m[33m[built][39m[22m
-  [1m./includes/attachment-report/src/index.js + 34 modules[39m[22m 78.2 KiB [1m[31m[not cacheable][39m[22m [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-  css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]![1m./includes/attachment-report/src/style.scss[39m[22m 0 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-webpack 5.106.2 compiled [1m[32msuccessfully[39m[22m in 8283 ms
+built modules 78.2 KiB (javascript) 0 bytes (css/mini-extract) [built]
+  ./includes/attachment-report/src/index.js + 34 modules 78.2 KiB [not cacheable] [built] [code generated]
+  css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/attachment-report/src/style.scss 0 bytes [built] [code generated]
+webpack 5.106.2 compiled successfully in 5121 ms
 assets by chunk 5.43 KiB (name: index)
-  asset [1m[32mindex.js[39m[22m 5.18 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (name: index)
-  asset [1m[32mindex.asset.php[39m[22m 260 bytes [1m[32m[emitted][39m[22m (name: index)
-assets by path [1m[32m./*.css[39m[22m 1.89 KiB
-  asset [1m[32m./style-index-rtl.css[39m[22m 966 bytes [1m[32m[emitted][39m[22m (name: ./style-index) (id hint: style)
-  asset [1m[32m./style-index.css[39m[22m 965 bytes [1m[32m[emitted][39m[22m (name: ./style-index) (id hint: style)
-Entrypoint [1mindex[39m[22m 7.32 KiB = [1m[32m./style-index.css[39m[22m 965 bytes [1m[32m./style-index-rtl.css[39m[22m 966 bytes [1m[32mindex.js[39m[22m 5.18 KiB [1m[32mindex.asset.php[39m[22m 260 bytes
-orphan modules 225 KiB (javascript) 937 bytes (runtime) [1m[33m[orphan][39m[22m 337 modules
+  asset index.js 5.18 KiB [emitted] [minimized] (name: index)
+  asset index.asset.php 260 bytes [emitted] (name: index)
+assets by path ./*.css 1.89 KiB
+  asset ./style-index-rtl.css 966 bytes [emitted] (name: ./style-index) (id hint: style)
+  asset ./style-index.css 965 bytes [emitted] (name: ./style-index) (id hint: style)
+Entrypoint index 7.32 KiB = ./style-index.css 965 bytes ./style-index-rtl.css 966 bytes index.js 5.18 KiB index.asset.php 260 bytes
+orphan modules 225 KiB (javascript) 937 bytes (runtime) [orphan] 337 modules
 runtime modules 3.08 KiB 5 modules
-built modules 12.9 KiB (javascript) 964 bytes (css/mini-extract) [1m[33m[built][39m[22m
-  [1m./includes/image-mismatch/src/index.js + 16 modules[39m[22m 12.9 KiB [1m[31m[not cacheable][39m[22m [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-  css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]![1m./includes/image-mismatch/src/style.scss[39m[22m 964 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-webpack 5.106.2 compiled [1m[32msuccessfully[39m[22m in 6645 ms
+built modules 12.9 KiB (javascript) 964 bytes (css/mini-extract) [built]
+  ./includes/image-mismatch/src/index.js + 16 modules 12.9 KiB [not cacheable] [built] [code generated]
+  css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/image-mismatch/src/style.scss 964 bytes [built] [code generated]
+webpack 5.106.2 compiled successfully in 4429 ms

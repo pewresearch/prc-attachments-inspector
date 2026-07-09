@@ -6,7 +6,7 @@
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { createRoot, Fragment, useMemo, useState } from '@wordpress/element';
+import { createRoot, useMemo, useState } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -22,7 +22,6 @@ const AdminColumnAttachmentsReport = ({ postId, postType }) => {
 
 	const handleHover = () => {
 		if (!hovered) {
-			console.log('Button hovered over for the first time!');
 			setIsHovered(true);
 		}
 	};

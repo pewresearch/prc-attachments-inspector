@@ -1,5 +1,5 @@
 
-> @prc/attachments-inspector@1.0.0 build
+> @prc/attachments-inspector@1.1.0 build
 > wp-scripts build --source-path=includes/attachments-panel/src --output-path=includes/attachments-panel/build && wp-scripts build --source-path=includes/attachment-report/src --output-path=includes/attachment-report/build && wp-scripts build --source-path=includes/image-mismatch/src --output-path=includes/image-mismatch/build
 
 assets by chunk 13.5 KiB (name: index)
@@ -14,20 +14,26 @@ runtime modules 3.08 KiB 5 modules
 built modules 28.7 KiB (javascript) 450 bytes (css/mini-extract) [built]
   ./includes/attachments-panel/src/index.js + 32 modules 28.7 KiB [not cacheable] [built] [code generated]
   css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/attachments-panel/src/style.scss 450 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 2890 ms
-assets by chunk 28.3 KiB (name: index)
-  asset index.js 28.1 KiB [emitted] [minimized] (name: index)
-  asset index.asset.php 202 bytes [emitted] [compared for emit] (name: index)
-assets by path ./*.css 2 bytes
-  asset ./style-index-rtl.css 1 bytes [emitted] (name: ./style-index) (id hint: style)
-  asset ./style-index.css 1 bytes [emitted] (name: ./style-index) (id hint: style)
-Entrypoint index 28.3 KiB = ./style-index.css 1 bytes ./style-index-rtl.css 1 bytes index.js 28.1 KiB index.asset.php 202 bytes
-orphan modules 98.3 KiB (javascript) 937 bytes (runtime) [orphan] 50 modules
-runtime modules 3.08 KiB 5 modules
-built modules 78.2 KiB (javascript) 0 bytes (css/mini-extract) [built]
-  ./includes/attachment-report/src/index.js + 34 modules 78.2 KiB [not cacheable] [built] [code generated]
-  css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/attachment-report/src/style.scss 0 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 3975 ms
+webpack 5.106.2 compiled successfully in 3335 ms
+assets by chunk 127 KiB (name: index)
+  asset index.js 127 KiB [emitted] [minimized] (name: index)
+  asset index.asset.php 333 bytes [emitted] [compared for emit] (name: index)
+assets by path ./*.css 59.8 KiB
+  asset ./style-index-rtl.css 29.9 KiB [emitted] (name: ./style-index) (id hint: style)
+  asset ./style-index.css 29.9 KiB [emitted] (name: ./style-index) (id hint: style)
+Entrypoint index 187 KiB = ./style-index.css 29.9 KiB ./style-index-rtl.css 29.9 KiB index.js 127 KiB index.asset.php 333 bytes
+orphan modules 1.02 MiB (javascript) 937 bytes (runtime) [orphan] 750 modules
+runtime modules 4.5 KiB 7 modules
+built modules 334 KiB (javascript) 29.9 KiB (css/mini-extract) [built]
+  cacheable modules 8.22 KiB (javascript) 29.9 KiB (css/mini-extract)
+    modules by path ../../node_modules/use-sync-external-store/ 2.15 KiB
+      ../../node_modules/use-sync-external-store/shim/index.js 234 bytes [built] [code generated]
+      ../../node_modules/use-sync-external-store/cjs/use-sync-external-store-shim...(truncated) 1.92 KiB [built] [code generated]
+    css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/attachment-report/src/style.scss 29.9 KiB [built] [code generated]
+    ../../node_modules/remove-accents/index.js 6.07 KiB [built] [code generated]
+  ./includes/attachment-report/src/index.js + 127 modules 325 KiB [not cacheable] [built] [code generated]
+  external "React" 42 bytes [built] [code generated]
+webpack 5.106.2 compiled successfully in 6987 ms
 assets by status 5.43 KiB [compared for emit]
   asset index.js 5.18 KiB [compared for emit] [minimized] (name: index)
   asset index.asset.php 260 bytes [compared for emit] (name: index)
@@ -40,4 +46,4 @@ runtime modules 3.08 KiB 5 modules
 built modules 12.9 KiB (javascript) 964 bytes (css/mini-extract) [built]
   ./includes/image-mismatch/src/index.js + 16 modules 12.9 KiB [not cacheable] [built] [code generated]
   css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/image-mismatch/src/style.scss 964 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 3482 ms
+webpack 5.106.2 compiled successfully in 2008 ms

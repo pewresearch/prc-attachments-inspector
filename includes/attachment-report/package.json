@@ -10,6 +10,7 @@
 		"start": "wp-scripts start src/index.js"
 	},
 	"dependencies": {
-		"@emotion/styled": "^11.11.0"
+		"@emotion/styled": "^11.11.0",
+		"@wordpress/dataviews": "^4.19.0"
 	}
 }

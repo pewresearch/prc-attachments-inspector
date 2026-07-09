@@ -34,15 +34,13 @@ const useProvideAttachments = ({ postId, postType, enabled }) => {
 				path: `/prc-api/v3/attachments-report/get/${postId}`,
 			})
 				.then((data) => {
-					console.log('... data ...', data);
-					const { postTitle, attachments } = data;
-					console.log('Attachments?', attachments);
-					setPostTitle(postTitle);
-					setAttachments([...attachments]);
+					const { postTitle: title, attachments: items } = data;
+					setPostTitle(title);
+					setAttachments([...items]);
 					toggleProcessing(false);
 				})
-				.catch((error) => {
-					console.error(error);
+				.catch(() => {
+					setAttachments([]);
 				})
 				.finally(() => {
 					toggleProcessing(false);

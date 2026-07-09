@@ -9,6 +9,7 @@ import classNames from 'classnames';
  */
 import { Fragment, useMemo, useState } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal Dependencies
@@ -37,15 +38,15 @@ export default function AdminColumnButton({ initialized, handleHover }) {
 		if (loading) {
 			return (
 				<Fragment>
-					Loading... <Spinner />
+					{__('Loading…', 'prc-attachments-inspector')} <Spinner />
 				</Fragment>
 			);
 		}
 		if (initialized && attachments.length === 0) {
-			return 'No Attachments';
+			return __('No Attachments or Charts', 'prc-attachments-inspector');
 		}
-		return 'View Attachments Report';
-	}, [initialized, loading]);
+		return __('View Attachments & Charts', 'prc-attachments-inspector');
+	}, [initialized, loading, attachments]);
 
 	return (
 		<Fragment>
@@ -53,7 +54,10 @@ export default function AdminColumnButton({ initialized, handleHover }) {
 				className={classNames('button button-small button-secondary', {
 					disabled: disabledButton,
 				})}
-				alt="View this post's attachments report"
+				alt={__(
+					"View this post's attachments and charts report",
+					'prc-attachments-inspector'
+				)}
 				type="button"
 				onMouseEnter={handleHover}
 				onClick={() => {

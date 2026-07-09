@@ -34,6 +34,6 @@ class PRC_ATTACHMENTS_COLUMN extends \AC\Column {
 	 */
 	public function scripts() {
 		wp_enqueue_script( 'prc-platform-attachment-report' );
-		wp_enqueue_style( 'wp-components' );
+		wp_enqueue_style( 'prc-platform-attachment-report' );
 	}
 }

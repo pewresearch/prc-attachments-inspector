@@ -216,6 +216,10 @@ class Attachment_Report {
 
 		$new_attachments = array();
 		foreach ( $attachments as $attachment ) {
+			if ( ! str_starts_with( $attachment->post_mime_type, 'image/' ) ) {
+				continue;
+			}
+
 			$meta   = get_post_meta( $attachment->ID, '_wp_attachment_metadata', true );
 			$width  = 0;
 			$height = 0;
@@ -225,6 +229,7 @@ class Attachment_Report {
 			}
 			$new_attachments[] = array(
 				'id'           => $attachment->ID,
+				'type'         => 'image',
 				'title'        => $attachment->post_title,
 				'caption'      => $attachment->post_excerpt,
 				'description'  => $attachment->post_content,
@@ -278,8 +283,19 @@ class Attachment_Report {
 			$attachments = array_merge( $attachments, ...$child_attachments );
 		}
 
-		// Ensure that we don't have any empty arrays in the attachments array
-		// $attachments = array_filter( $attachments );
+		/**
+		 * Allow other plugins to append report items (e.g. chart-builder charts).
+		 *
+		 * @param array  $attachments Report items for the post.
+		 * @param int    $post_id     Resolved parent post ID.
+		 * @param string $mime_type   Requested mime type filter.
+		 */
+		$attachments = apply_filters(
+			'prc_attachments_report_items',
+			$attachments,
+			$post_id,
+			$mime_type
+		);
 
 		return array(
 			'postTitle'   => get_the_title( $post_id ),

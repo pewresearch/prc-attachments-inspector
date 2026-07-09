@@ -100,9 +100,9 @@ Build targets live inside each `includes/` subdirectory with their own `package.
 npm run build -w @prc/attachments-inspector
 ```
 
-Run Playwright tests (from monorepo root; wp-env, Playground, and Playwright are centralized):
+Run Playwright tests (from monorepo root; VIP dev-env and Playwright are centralized):
 
 ```bash
-npm run env:start
+npm run vip:start
 npm test -- tests/prc-attachments-inspector/
 ```

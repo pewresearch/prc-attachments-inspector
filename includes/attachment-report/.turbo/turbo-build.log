@@ -20,4 +20,4 @@ built modules 334 KiB (javascript) 29.9 KiB (css/mini-extract) [built]
     ../../../../node_modules/remove-accents/index.js 6.07 KiB [built] [code generated]
   ./src/index.js + 127 modules 325 KiB [not cacheable] [built] [code generated]
   external "React" 42 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 8940 ms
+webpack 5.106.2 compiled successfully in 8863 ms

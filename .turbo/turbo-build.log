@@ -1,5 +1,5 @@
 
-> @prc/attachments-inspector@1.0.0 build
+> @prc/attachments-inspector@1.1.1 build
 > wp-scripts build --source-path=includes/attachments-panel/src --output-path=includes/attachments-panel/build && wp-scripts build --source-path=includes/attachment-report/src --output-path=includes/attachment-report/build && wp-scripts build --source-path=includes/image-mismatch/src --output-path=includes/image-mismatch/build
 
 assets by chunk 13.5 KiB (name: index)
@@ -14,7 +14,7 @@ runtime modules 3.08 KiB 5 modules
 built modules 28.7 KiB (javascript) 450 bytes (css/mini-extract) [built]
   ./includes/attachments-panel/src/index.js + 32 modules 28.7 KiB [not cacheable] [built] [code generated]
   css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/attachments-panel/src/style.scss 450 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 2486 ms
+webpack 5.106.2 compiled successfully in 2152 ms
 assets by chunk 127 KiB (name: index)
   asset index.js 127 KiB [emitted] [minimized] (name: index)
   asset index.asset.php 333 bytes [emitted] [compared for emit] (name: index)
@@ -33,7 +33,7 @@ built modules 334 KiB (javascript) 29.9 KiB (css/mini-extract) [built]
     ../../node_modules/remove-accents/index.js 6.07 KiB [built] [code generated]
   ./includes/attachment-report/src/index.js + 127 modules 325 KiB [not cacheable] [built] [code generated]
   external "React" 42 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 6284 ms
+webpack 5.106.2 compiled successfully in 4418 ms
 assets by status 5.43 KiB [compared for emit]
   asset index.js 5.18 KiB [compared for emit] [minimized] (name: index)
   asset index.asset.php 260 bytes [compared for emit] (name: index)
@@ -46,4 +46,4 @@ runtime modules 3.08 KiB 5 modules
 built modules 12.9 KiB (javascript) 964 bytes (css/mini-extract) [built]
   ./includes/image-mismatch/src/index.js + 16 modules 12.9 KiB [not cacheable] [built] [code generated]
   css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./includes/image-mismatch/src/style.scss 964 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 1484 ms
+webpack 5.106.2 compiled successfully in 2160 ms

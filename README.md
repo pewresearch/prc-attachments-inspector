@@ -24,9 +24,9 @@ Provides two tools for inspecting and managing media attached to posts: a block 
 | `includes/attachments-panel/class-attachments-panel.php` | Registers the editor sidebar script/style and the panel's REST endpoints                                                                                                             |
 | `includes/attachments-panel/src/attachments-panel.jsx`   | `PluginSidebar` component; exposes the `prc-platform.attachments-panel` JS filter hook for extensibility                                                                             |
 | `includes/attachments-panel/src/drag-and-drop-zone.jsx`  | `DropZone` component within the panel for uploading files directly to the post                                                                                                       |
-| `tests/editor-panel.spec.ts`                             | Playwright e2e tests for the editor sidebar                                                                                                                                          |
-| `tests/frontend-report.spec.ts`                          | Playwright e2e tests for the frontend report view                                                                                                                                    |
-| `tests/rest-api.spec.ts`                                 | Playwright e2e tests for all REST endpoints                                                                                                                                          |
+| `tests/prc-attachments-inspector/e2e/editor-panel.spec.ts`                             | Playwright e2e tests for the editor sidebar                                                                                                                                          |
+| `tests/prc-attachments-inspector/e2e/frontend-report.spec.ts`                          | Playwright e2e tests for the frontend report view                                                                                                                                    |
+| `tests/prc-attachments-inspector/e2e/rest-api.spec.ts`                                 | Playwright e2e tests for all REST endpoints                                                                                                                                          |
 
 ## REST API endpoints
 
@@ -104,5 +104,5 @@ Run Playwright tests (from monorepo root; VIP dev-env and Playwright are central
 
 ```bash
 npm run vip:start
-npm test -- tests/prc-attachments-inspector/
+npm test -- tests/prc-attachments-inspector/e2e/
 ```

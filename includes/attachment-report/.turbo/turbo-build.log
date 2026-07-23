@@ -4,7 +4,7 @@
 
 assets by chunk 128 KiB (name: index)
   asset index.js 127 KiB [emitted] [minimized] (name: index)
-  asset index.asset.php 333 bytes [emitted] [compared for emit] (name: index)
+  asset index.asset.php 333 bytes [emitted] (name: index)
 assets by path ./*.css 59.8 KiB
   asset ./style-index-rtl.css 29.9 KiB [emitted] (name: ./style-index) (id hint: style)
   asset ./style-index.css 29.9 KiB [emitted] (name: ./style-index) (id hint: style)
@@ -20,4 +20,4 @@ built modules 334 KiB (javascript) 29.9 KiB (css/mini-extract) [built]
     ../../../../node_modules/remove-accents/index.js 6.07 KiB [built] [code generated]
   ./src/index.js + 127 modules 325 KiB [not cacheable] [built] [code generated]
   external "React" 42 bytes [built] [code generated]
-webpack 5.106.2 compiled successfully in 8863 ms
+webpack 5.106.2 compiled successfully in 8087 ms

@@ -28,11 +28,11 @@ function subscribe(postId, fn) {
 	return () => listeners[postId].delete(fn);
 }
 
-function fetchAttachments(postId) {
+function fetchAttachments(postId, { force = false } = {}) {
 	if (!postId) {
 		return;
 	}
-	if (cache[postId] && cache[postId].status !== 'error') {
+	if (!force && cache[postId] && cache[postId].status !== 'error') {
 		return;
 	}
 
@@ -54,10 +54,24 @@ function fetchAttachments(postId) {
 }
 
 /**
+ * Clear the module cache for a post and refetch attachments.
+ * Call after reparenting or importing so the Attachments sidebar stays in sync.
+ *
+ * @param {number|string} postId
+ */
+export function invalidatePostAttachments(postId) {
+	if (!postId) {
+		return;
+	}
+	delete cache[postId];
+	fetchAttachments(postId, { force: true });
+}
+
+/**
  * Hook — returns { attachments, status } for the current post.
  * Fetches once and caches at module level so all HOC instances share one request.
  *
- * @return {{ attachments: Array, status: 'loading'|'ready'|'error' }}
+ * @return {{ attachments: Array, status: 'loading'|'ready'|'error' }} Attachment list state.
  */
 export default function usePostAttachments() {
 	const postId = useSelect(

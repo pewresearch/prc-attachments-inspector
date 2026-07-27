@@ -1,5 +1,6 @@
 .prc-image-mismatch-picker {
 	min-width: 260px;
+	max-width: 320px;
 	padding: 8px;
 
 	&__title {
@@ -9,6 +10,16 @@
 		margin-bottom: 8px;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
+	}
+
+	&__busy {
+		display: flex;
+		justify-content: center;
+		padding: 12px 0;
+	}
+
+	&__notice {
+		margin: 0 0 8px;
 	}
 
 	&__item {
@@ -57,5 +68,18 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	&__import {
+		margin-top: 8px;
+		padding-top: 8px;
+		border-top: 1px solid #ddd;
+	}
+
+	&__import-help {
+		font-size: 12px;
+		color: #50575e;
+		margin: 0 0 8px;
+		line-height: 1.4;
 	}
 }

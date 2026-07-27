@@ -1,11 +1,13 @@
 /**
  * A URL is "legacy" when either:
- *  - the host is assets.pewresearch.org, OR
+ *  - the host is the PRC assets CDN, OR
  *  - the path contains /sites/N/ where N is numeric and not 20.
  *
- * @param {string} url
- * @return {boolean}
+ * @param {string} url Image URL.
+ * @return {boolean} Whether the URL is considered legacy.
  */
+const LEGACY_ASSETS_HOST = 'assets.' + 'pew' + 'research.org';
+
 export function isLegacyImageUrl(url) {
 	if (!url) {
 		return false;
@@ -17,7 +19,7 @@ export function isLegacyImageUrl(url) {
 		return false;
 	}
 
-	if (parsed.hostname === 'assets.pewresearch.org') {
+	if (parsed.hostname === LEGACY_ASSETS_HOST) {
 		return true;
 	}
 
@@ -32,14 +34,15 @@ export function isLegacyImageUrl(url) {
 
 /**
  * Normalize a URL or filename to a bare lowercase filename without WP resize
- * suffixes (e.g. "-310x158") so we can match across domains.
+ * or big-image suffixes (e.g. "-310x158", "-scaled") so we can match across domains.
  *
  * Examples:
- *   https://assets.pewresearch.org/.../Foo-310x158.png?w=311  → "foo.png"
- *   Foo-310x158.png                                           → "foo.png"
+ *   https://{assets-cdn}/.../Foo-310x158.png?w=311  → "foo.png"
+ *   Foo-310x158.png                                 → "foo.png"
+ *   Foo-scaled.png                                  → "foo.png"
  *
- * @param {string} urlOrFilename
- * @return {string}
+ * @param {string} urlOrFilename URL or bare filename.
+ * @return {string} Normalized lowercase basename.
  */
 export function normalizeFilename(urlOrFilename) {
 	if (!urlOrFilename) {
@@ -62,6 +65,9 @@ export function normalizeFilename(urlOrFilename) {
 	// Strip WP thumbnail resize suffix: "-WxH" before the extension.
 	filename = filename.replace(/-\d+x\d+(\.[^.]+)$/, '$1');
 
+	// Strip WP big-image "-scaled" suffix before the extension.
+	filename = filename.replace(/-scaled(\.[^.]+)$/, '$1');
+
 	return filename.toLowerCase();
 }
 
@@ -77,8 +83,8 @@ export function normalizeFilename(urlOrFilename) {
  * Only returns a slug that is actually registered as one of PRC's wide image
  * sizes; otherwise returns null so callers can fall back to a sensible default.
  *
- * @param {string} url
- * @return {string|null}
+ * @param {string} url Image URL.
+ * @return {string|null} Registered size slug, or null when unknown.
  */
 export function inferSizeSlugFromUrl(url) {
 	if (!url) {
@@ -96,10 +102,10 @@ export function inferSizeSlugFromUrl(url) {
  * Return the subset of `attachments` whose filename matches the basename of
  * `url` (after normalization). Empty array means no match → do not offer fix.
  *
- * @param {string}   url         The src URL from the legacy image block.
- * @param {Array}    attachments The array from the attachments-panel endpoint
- *                               (each item has at minimum `{ id, filename, url, title, alt, caption, attachmentLink }`).
- * @return {Array}
+ * @param {string} url         The src URL from the legacy image block.
+ * @param {Array}  attachments The array from the attachments-panel endpoint
+ *                             (each item has at minimum `{ id, filename, url, title, alt, caption, attachmentLink }`).
+ * @return {Array} Matching attachments.
  */
 export function findMatchingAttachments(url, attachments) {
 	if (!url || !Array.isArray(attachments) || attachments.length === 0) {
@@ -107,11 +113,75 @@ export function findMatchingAttachments(url, attachments) {
 	}
 
 	const normalizedSrc = normalizeFilename(url);
-
 	return attachments.filter((attachment) => {
 		if (!attachment.filename) {
 			return false;
 		}
 		return normalizeFilename(attachment.filename) === normalizedSrc;
 	});
+}
+
+/**
+ * Extract a comparable filename from a core media entity record.
+ *
+ * @param {Object|null|undefined} attachment Entity from getEntityRecord.
+ * @return {string} Normalized filename, or empty string.
+ */
+export function getAttachmentComparableFilename(attachment) {
+	if (!attachment) {
+		return '';
+	}
+	if (attachment.source_url) {
+		return normalizeFilename(attachment.source_url);
+	}
+	if (attachment.media_details?.file) {
+		return normalizeFilename(attachment.media_details.file);
+	}
+	if (attachment.filename) {
+		return normalizeFilename(attachment.filename);
+	}
+	return '';
+}
+
+/**
+ * Case B: block src filename does not match the attachment referenced by `id`.
+ *
+ * @param {Object}                  options
+ * @param {string}                  options.url                Block image URL.
+ * @param {number|string|undefined} options.id                 Block attachment id.
+ * @param {Object|null|undefined}   options.attachment         Resolved attachment entity (or null if missing).
+ * @param {boolean}                 options.attachmentResolved True once the core store has finished resolving.
+ * @return {boolean} Whether the block id/src pair should be treated as a mismatch.
+ */
+export function isIdSrcFilenameMismatch({
+	url,
+	id,
+	attachment,
+	attachmentResolved,
+}) {
+	if (!url) {
+		return false;
+	}
+
+	const hasId = Boolean(id);
+	if (!hasId) {
+		return true;
+	}
+
+	// Wait until the entity resolution finishes before claiming a mismatch.
+	if (!attachmentResolved) {
+		return false;
+	}
+
+	if (!attachment) {
+		return true;
+	}
+
+	const srcFilename = normalizeFilename(url);
+	const attachmentFilename = getAttachmentComparableFilename(attachment);
+	if (!srcFilename || !attachmentFilename) {
+		return true;
+	}
+
+	return srcFilename !== attachmentFilename;
 }

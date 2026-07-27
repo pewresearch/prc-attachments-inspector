@@ -10,6 +10,11 @@ Provides two tools for inspecting and managing media attached to posts: a block 
 - Registers REST endpoints for fetching attachments (panel and report shapes) and for detaching an attachment from its parent post
 - Attachment report endpoint traverses child posts/pages (up to 25) and supports mime type filtering
 - The editor panel's sidebar is extensible via the `prc-platform.attachments-panel` JS filter hook, allowing other plugins to inject their own panels
+- Provides an **image mismatch** editor toolbar on `core/image` blocks:
+  - **Case A:** legacy `src` (PRC assets CDN or `/sites/N/` where `N ≠ 20`) with a matching filename among post-attached media → **Fix Mismatch** rewires the block to that attachment
+  - **Case B:** block `id` is missing/invalid or the attachment filename does not match the `src` filename → search the media library by filename (reparent on pick) or **Import from URL** to sideload a new attachment
+- Frontend admin-bar alert for Case A and Case B (combined count + breakdown tooltip; links to the post editor)
+- Shared PHP scanner powers the admin bar, a WP-CLI report (`wp prc attachments-inspector mismatch-report`), and a WP Ability (`prc-attachments-inspector/scan-image-mismatches`) that page through posts 50 at a time
 
 ## Key files
 
@@ -24,6 +29,12 @@ Provides two tools for inspecting and managing media attached to posts: a block 
 | `includes/attachments-panel/class-attachments-panel.php` | Registers the editor sidebar script/style and the panel's REST endpoints                                                                                                             |
 | `includes/attachments-panel/src/attachments-panel.jsx`   | `PluginSidebar` component; exposes the `prc-platform.attachments-panel` JS filter hook for extensibility                                                                             |
 | `includes/attachments-panel/src/drag-and-drop-zone.jsx`  | `DropZone` component within the panel for uploading files directly to the post                                                                                                       |
+| `includes/image-mismatch/class-image-mismatch-scanner.php` | Shared Case A/B detection: `scan_post()`, `scan_batch()` (cursor, 50/batch), cached admin-bar summary |
+| `includes/image-mismatch/class-image-mismatch.php`       | Admin-bar presentation; Case B find/import REST; editor asset enqueue                                                                                                              |
+| `includes/image-mismatch/class-cli.php`                  | WP-CLI `prc attachments-inspector mismatch-report`                                                                                                                                |
+| `includes/image-mismatch/class-ability.php`              | WP Ability `prc-attachments-inspector/scan-image-mismatches`                                                                                                                      |
+| `includes/image-mismatch/class-ability-categories.php`   | Ability category `attachments-inspector`                                                                                                                                          |
+| `includes/image-mismatch/src/fix-mismatch-toolbar.jsx` | Block toolbar **Fix Mismatch** UI (Case A immediate replace; Case B library search / import)                                                                                         |
 | `tests/prc-attachments-inspector/e2e/editor-panel.spec.ts`                             | Playwright e2e tests for the editor sidebar                                                                                                                                          |
 | `tests/prc-attachments-inspector/e2e/frontend-report.spec.ts`                          | Playwright e2e tests for the frontend report view                                                                                                                                    |
 | `tests/prc-attachments-inspector/e2e/rest-api.spec.ts`                                 | Playwright e2e tests for all REST endpoints                                                                                                                                          |
@@ -36,6 +47,8 @@ All routes are under the `prc-api/v3` namespace, registered directly on `rest_ap
 | ------ | -------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `GET`  | `/prc-api/v3/attachments-panel/get/{post_id}`            | `edit_posts`  | Returns attached media for a post: `id`, `title`, `type`, `filename`, `editLink`, `attachmentLink`, `url`, `alt`, `caption`                                                                                                                                                                                                                                                          |
 | `POST` | `/prc-api/v3/attachments-panel/unattach/{attachment_id}` | `edit_posts`  | Sets `post_parent` to `0`, detaching the attachment from its post                                                                                                                                                                                                                                                                                                                    |
+| `POST` | `/prc-api/v3/image-mismatch/find`                        | `edit_posts` (+ `edit_post` on target) | Body: `{ post_id, url?, filename? }`. Resolves via `attachment_url_to_postid` then filename search on `_wp_attached_file`. Returns `{ filename, matches[] }` (panel-shaped attachment payloads, capped). |
+| `POST` | `/prc-api/v3/image-mismatch/import`                      | `edit_posts` (+ `edit_post` on target) | Body: `{ post_id, url }`. Allowlisted host sideload (`download_url` → `media_handle_sideload`) parented to the post. Returns `{ success, attachment }`. |
 | `GET`  | `/prc-api/v3/attachments-report/get/{post_id}`           | Public        | Returns `{ postTitle, attachments[] }`. Each attachment includes `id`, `title`, `caption`, `description`, `alt`, `mimeType`, `url`, `thumbnailUrl`, `squareUrl`, `width`, `height`, `owner`. Supports `mime_type` (`image`, `all`, etc.) and `include_children` (boolean, default `true`) query params. Automatically resolves child post ID to parent if a child post ID is passed. |
 
 ## Filters / hooks
@@ -59,6 +72,27 @@ All routes are under the `prc-api/v3` namespace, registered directly on `rest_ap
 | `prc-platform.attachments-panel` | `withFilters` | Allows other plugins to wrap or extend the `AttachmentsPanelComponent` in the editor sidebar. Pass a higher-order component via `addFilter` on this hook name. |
 
 ## Usage
+
+### Image mismatch report (WP-CLI)
+
+Scan published posts in batches of 50 (resumable via `--start-id`):
+
+```bash
+wp prc attachments-inspector mismatch-report
+wp prc attachments-inspector mismatch-report --start-id=39700 --limit=100 --format=csv
+wp prc attachments-inspector mismatch-report --post_type=post --batch-size=50 --format=json
+```
+
+Options: `--post_type` (default `post`), `--batch-size` (max 50), `--start-id`, `--limit` (0 = all), `--format` (`table|csv|json|count`). The command logs `last_id` so long runs can resume.
+
+### Image mismatch scan (WP Ability)
+
+Ability id: `prc-attachments-inspector/scan-image-mismatches`
+
+Input: `{ cursor?: int, batch_size?: int (max 50), post_type?: string }`  
+Output: `{ results: [...affected posts], last_id, scanned, done }`
+
+Call repeatedly with `cursor = last_id` until `done` is true. Requires `edit_posts`. Exposed via REST (`show_in_rest`) and MCP.
 
 ### Frontend attachment report
 

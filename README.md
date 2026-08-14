@@ -1,5 +1,7 @@
 # PRC Attachments Inspector
 
+> Canonical docs: [docs/plugins/prc-attachments-inspector/](../../docs/plugins/prc-attachments-inspector/)
+
 Provides two tools for inspecting and managing media attached to posts: a block editor sidebar panel for editors to view, upload, and detach files during editing, and a frontend/admin attachment report for reviewing image metadata across a post and its children.
 
 ## What it does

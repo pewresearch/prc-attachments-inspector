@@ -44,9 +44,36 @@ class Attachment_Report {
 			$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_frontend_assets' );
 			$loader->add_filter( 'the_content', $this, 'add_report_to_content' );
 			$loader->add_action( 'admin_enqueue_scripts', $this, 'register_assets' );
+			$loader->add_action( 'admin_enqueue_scripts', $this, 'enqueue_dataviews_assets', 25 );
 			$loader->add_action( 'rest_api_init', $this, 'register_endpoint' );
-			$loader->add_action( 'ac/ready', $this, 'register_column' );
 		}
+	}
+
+	/**
+	 * Load the attachments report UI on shared DataViews admin lists.
+	 *
+	 * @param string $hook_suffix Admin hook.
+	 */
+	public function enqueue_dataviews_assets( $hook_suffix ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+		if ( ! wp_script_is( 'prc-wp-admin-dataview', 'enqueued' ) ) {
+			return;
+		}
+
+		// Priority-10 register_assets usually already registered this handle.
+		// wp_register_script() returns false when present, so do not treat that
+		// as failure — just ensure the shell dependency and enqueue.
+		$registered = $this->register_assets();
+		if ( is_wp_error( $registered ) ) {
+			return;
+		}
+
+		$script = wp_scripts()->query( self::$handle );
+		if ( is_object( $script ) && ! in_array( 'prc-wp-admin-dataview', $script->deps, true ) ) {
+			$script->deps[] = 'prc-wp-admin-dataview';
+		}
+
+		wp_enqueue_script( self::$handle );
+		wp_enqueue_style( self::$handle );
 	}
 
 	/**
@@ -62,32 +89,16 @@ class Attachment_Report {
 	}
 
 	/**
-	 * Register the Admin Columns Pro custom column.
-	 *
-	 * @since    1.0.0
-	 */
-	public function register_column() {
-		// Use the hook below if you only want a free column
-		add_action(
-			'ac/column_types',
-			function ( \AC\ListScreen $list_screen ) {
-				// require the acp-column.php file in this directory
-				require_once plugin_dir_path( __FILE__ ) . 'class-acp-column.php';
-
-				if ( 'post' === $list_screen->get_key() ) {
-					// Register a column for the Free version WITHOUT pro features
-					$list_screen->register_column_type( new \PRC_PLATFORM_COLUMNS\PRC_ATTACHMENTS_COLUMN() );
-				}
-			} 
-		);
-	}
-
-	/**
 	 * Register the assets.
 	 *
 	 * @since    1.0.0
 	 */
 	public function register_assets() {
+		// Already registered (e.g. priority-10 admin_enqueue + later callers).
+		if ( wp_script_is( self::$handle, 'registered' ) && wp_style_is( self::$handle, 'registered' ) ) {
+			return true;
+		}
+
 		$asset_file = include plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
 		$asset_slug = self::$handle;
 		$script_src = plugin_dir_url( __FILE__ ) . 'build/index.js';

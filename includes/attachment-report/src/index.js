@@ -7,6 +7,9 @@
  */
 import domReady from '@wordpress/dom-ready';
 import { createRoot, useMemo, useState } from '@wordpress/element';
+import { addFilter } from '@wordpress/hooks';
+import { __ } from '@wordpress/i18n';
+import { media } from '@wordpress/icons';
 
 /**
  * Internal Dependencies
@@ -16,6 +19,48 @@ import AdminColumnButton from './admin-column-button';
 import AttachmentsModal from './modal';
 
 import './style.scss';
+
+function openAttachmentsReport(item) {
+	const postId = item?.id;
+	const postType =
+		item?.post_type || window?.prcWpAdminDataview?.postType || 'post';
+	if (!postId) {
+		return;
+	}
+
+	const mount = document.createElement('div');
+	mount.className = 'prc-attachments-report-dataview-mount';
+	document.body.appendChild(mount);
+	const root = createRoot(mount);
+
+	const close = () => {
+		root.unmount();
+		mount.remove();
+	};
+
+	root.render(
+		<ProvideAttachments postId={postId} postType={postType} enabled={true}>
+			<AttachmentsModal onClose={close} />
+		</ProvideAttachments>
+	);
+}
+
+// Always register — do not gate on window.prcWpAdminDataview at parse time.
+// This script must load after the shell (see PHP script dependency).
+addFilter(
+	'prcWpAdminDataview.actions',
+	'prc-attachments-inspector/attachments-report',
+	(actions) => [
+		...actions,
+		{
+			id: 'attachments-report',
+			label: __('View Attachments', 'prc-attachments-inspector'),
+			icon: media,
+			callback: ([item]) => openAttachmentsReport(item),
+			isEligible: (item) => !!item?.id,
+		},
+	]
+);
 
 const AdminColumnAttachmentsReport = ({ postId, postType }) => {
 	const [hovered, setIsHovered] = useState(false);

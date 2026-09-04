@@ -14,7 +14,7 @@ Provides two tools for inspecting and managing media attached to posts: a block 
 - The editor panel's sidebar is extensible via the `prc-platform.attachments-panel` JS filter hook, allowing other plugins to inject their own panels
 - Provides an **image mismatch** editor toolbar on `core/image` blocks:
   - **Case A:** legacy `src` (PRC assets CDN or `/sites/N/` where `N ≠ 20`) with a matching filename among post-attached media → **Fix Mismatch** rewires the block to that attachment
-  - **Case B:** block `id` is missing/invalid or the attachment filename does not match the `src` filename → search the media library by filename (reparent on pick) or **Import from URL** to sideload a new attachment
+  - **Case B:** block `id` is present but invalid, or the attachment filename does not match the `src` filename → search the media library by filename (reparent on pick) or **Import from URL** to sideload a new attachment. A missing `id` is not a mismatch.
 - Frontend admin-bar alert for Case A and Case B (combined count + breakdown tooltip; links to the post editor)
 - Shared PHP scanner powers the admin bar, a WP-CLI report (`wp prc attachments-inspector mismatch-report`), and a WP Ability (`prc-attachments-inspector/scan-image-mismatches`) that page through posts 50 at a time
 

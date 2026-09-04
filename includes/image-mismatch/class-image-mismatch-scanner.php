@@ -3,8 +3,8 @@
  * Shared image-mismatch scanner for admin bar, CLI, and Abilities API.
  *
  * Case A — legacy src with a matching post-attached filename.
- * Case B — block id missing/invalid or attachment filename ≠ src filename.
- * Case A takes precedence when both apply (matches the editor toolbar).
+ * Case B — attachment id is present but invalid, or attachment filename ≠ src filename.
+ * A missing id is not a mismatch. Case A takes precedence when both apply.
  *
  * @package PRC\Platform\Attachments_Inspector
  */
@@ -84,7 +84,7 @@ class Image_Mismatch_Scanner {
 				$case = 'A';
 				++$case_a;
 			} elseif ( $this->is_id_src_filename_mismatch( $src, $id, $attachment_filename ) ) {
-				// Case B: id missing/invalid or attachment filename ≠ src filename.
+				// Case B: id present but invalid, or attachment filename ≠ src filename.
 				$case = 'B';
 				++$case_b;
 			}
@@ -310,6 +310,7 @@ class Image_Mismatch_Scanner {
 
 	/**
 	 * Case B: src filename does not match the attachment referenced by id.
+	 * A missing or zero id is not a mismatch.
 	 *
 	 * @param string $src                 Block image URL.
 	 * @param int    $id                  Block attachment id (0 when missing).
@@ -329,7 +330,7 @@ class Image_Mismatch_Scanner {
 		}
 
 		if ( $id <= 0 ) {
-			return true;
+			return false;
 		}
 
 		if ( 'attachment' !== get_post_type( $id ) || ! wp_attachment_is_image( $id ) ) {

@@ -6,7 +6,7 @@
  *
  *  1. A "Fix Mismatch" toolbar button in the block editor (via editor JS asset).
  *     - Case A: legacy image URL with a matching post-attached filename.
- *     - Case B: block id missing/invalid or attachment filename ≠ src filename;
+ *     - Case B: attachment id present but invalid, or attachment filename ≠ src filename;
  *       find in media library or import from URL (editor-only).
  *  2. A frontend admin bar alert for Case A and Case B, linking to the post editor.
  *

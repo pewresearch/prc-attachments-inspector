@@ -174,7 +174,7 @@ function MatchPicker({
  * BlockEdit HOC wrapper for core/image.
  *
  * Case A: legacy src + matching post-attached filename → Fix Mismatch.
- * Case B: id missing/invalid or attachment filename ≠ src → search ML / import.
+ * Case B: id present but invalid, or attachment filename ≠ src → search ML / import.
  *
  * @param {Object} props
  * @param {string} props.clientId   Block client id.

@@ -144,7 +144,8 @@ export function getAttachmentComparableFilename(attachment) {
 }
 
 /**
- * Case B: block src filename does not match the attachment referenced by `id`.
+ * Case B: block has an attachment id, but it is invalid or the attachment
+ * filename does not match src. A missing id is not a mismatch.
  *
  * @param {Object}                  options
  * @param {string}                  options.url                Block image URL.
@@ -165,7 +166,7 @@ export function isIdSrcFilenameMismatch({
 
 	const hasId = Boolean(id);
 	if (!hasId) {
-		return true;
+		return false;
 	}
 
 	// Wait until the entity resolution finishes before claiming a mismatch.

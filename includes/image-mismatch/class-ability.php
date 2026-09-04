@@ -53,7 +53,7 @@ class Ability {
 			self::$ability_name,
 			array(
 				'label'               => __( 'Scan image mismatches', 'prc-attachments-inspector' ),
-				'description'         => __( 'Scans a batch of published posts for core/image mismatches. Case A: legacy src with a matching post-attached filename. Case B: block id missing/invalid or attachment filename does not match src filename. Returns only affected posts plus a resume cursor.', 'prc-attachments-inspector' ),
+				'description'         => __( 'Scans a batch of published posts for core/image mismatches. Case A: legacy src with a matching post-attached filename. Case B: attachment id is present but invalid, or attachment filename does not match src filename. A missing id is not a mismatch. Returns only affected posts plus a resume cursor.', 'prc-attachments-inspector' ),
 				'category'            => Ability_Categories::CATEGORY,
 				'input_schema'        => array(
 					'type'                 => 'object',

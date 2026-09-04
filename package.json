@@ -1,9 +1,10 @@
 {
 	"name": "@prc/attachments-inspector",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"description": "PRC Attachments Inspector is a module for PRC Platform that...",
 	"scripts": {
-		"build": "wp-scripts build --source-path=includes/attachments-panel/src --output-path=includes/attachments-panel/build && wp-scripts build --source-path=includes/attachment-report/src --output-path=includes/attachment-report/build && wp-scripts build --source-path=includes/image-mismatch/src --output-path=includes/image-mismatch/build"
+		"build": "wp-scripts build --source-path=includes/attachments-panel/src --output-path=includes/attachments-panel/build && wp-scripts build --source-path=includes/attachment-report/src --output-path=includes/attachment-report/build && wp-scripts build --source-path=includes/image-mismatch/src --output-path=includes/image-mismatch/build",
+		"test": "wp-scripts test-unit-js --config jest.config.js"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^31.1.0"

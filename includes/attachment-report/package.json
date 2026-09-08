@@ -11,6 +11,6 @@
 	},
 	"dependencies": {
 		"@emotion/styled": "^11.11.0",
-		"@wordpress/dataviews": "17.2.0"
+		"@wordpress/dataviews": "18.1.0"
 	}
 }

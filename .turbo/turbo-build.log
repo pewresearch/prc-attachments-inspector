@@ -1,5 +1,5 @@
 
-> @prc/attachments-inspector@1.2.1 build
+> @prc/attachments-inspector@1.2.0 build
 > wp-scripts build --source-path=includes/attachments-panel/src --output-path=includes/attachments-panel/build && wp-scripts build --source-path=includes/attachment-report/src --output-path=includes/attachment-report/build && wp-scripts build --source-path=includes/image-mismatch/src --output-path=includes/image-mismatch/build
 
 assets by chunk 13.5 KiB (name: index)
@@ -14,7 +14,7 @@ runtime modules 3.08 KiB 5 modules
 built modules 28.7 KiB (javascript) 450 bytes (css/mini-extract) [1m[33m[built][39m[22m
   [1m./includes/attachments-panel/src/index.js + 32 modules[39m[22m 28.7 KiB [1m[31m[not cacheable][39m[22m [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
   css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]![1m./includes/attachments-panel/src/style.scss[39m[22m 450 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-webpack 5.106.2 compiled [1m[32msuccessfully[39m[22m in 1144 ms
+webpack 5.106.2 compiled [1m[32msuccessfully[39m[22m in 7056 ms
 assets by chunk 765 KiB (name: index)
   asset [1m[33mindex.js[39m[22m [1m[33m764 KiB[39m[22m [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: index)
   asset [1m[32mindex.asset.php[39m[22m 411 bytes [1m[32m[emitted][39m[22m [1m[33m[compared for emit][39m[22m (name: index)
@@ -55,7 +55,7 @@ Entrypoints:
 You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
 For more info visit https://webpack.js.org/guides/code-splitting/[39m[22m
 
-webpack 5.106.2 compiled with [1m[33m3 warnings[39m[22m in 6136 ms
+webpack 5.106.2 compiled with [1m[33m3 warnings[39m[22m in 25021 ms
 assets by chunk 8.43 KiB (name: index)
   asset [1m[32mindex.js[39m[22m 8.16 KiB [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m (name: index)
   asset [1m[32mindex.asset.php[39m[22m 276 bytes [1m[32m[emitted][39m[22m (name: index)
@@ -68,4 +68,4 @@ runtime modules 3.08 KiB 5 modules
 built modules 22 KiB (javascript) 1.28 KiB (css/mini-extract) [1m[33m[built][39m[22m
   [1m./includes/image-mismatch/src/index.js + 17 modules[39m[22m 22 KiB [1m[31m[not cacheable][39m[22m [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
   css ../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]![1m./includes/image-mismatch/src/style.scss[39m[22m 1.28 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
-webpack 5.106.2 compiled [1m[32msuccessfully[39m[22m in 777 ms
+webpack 5.106.2 compiled [1m[32msuccessfully[39m[22m in 5364 ms

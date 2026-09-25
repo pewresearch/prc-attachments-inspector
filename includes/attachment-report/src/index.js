@@ -50,16 +50,22 @@ function openAttachmentsReport(item) {
 addFilter(
 	'prcWpAdminDataview.actions',
 	'prc-attachments-inspector/attachments-report',
-	(actions) => [
-		...actions,
-		{
-			id: 'attachments-report',
-			label: __('View Attachments', 'prc-attachments-inspector'),
-			icon: media,
-			callback: ([item]) => openAttachmentsReport(item),
-			isEligible: (item) => !!item?.id,
-		},
-	]
+	(actions) => {
+		// Collection rows are not posts, so they have no attachments.
+		if (window?.prcWpAdminDataview?.kind === 'collection') {
+			return actions;
+		}
+		return [
+			...actions,
+			{
+				id: 'attachments-report',
+				label: __('View Attachments', 'prc-attachments-inspector'),
+				icon: media,
+				callback: ([item]) => openAttachmentsReport(item),
+				isEligible: (item) => !!item?.id,
+			},
+		];
+	}
 );
 
 const AdminColumnAttachmentsReport = ({ postId, postType }) => {

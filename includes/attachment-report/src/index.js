@@ -59,7 +59,7 @@ addFilter(
 			...actions,
 			{
 				id: 'attachments-report',
-				label: __('View Attachments', 'prc-attachments-inspector'),
+				label: __('View attachments', 'prc-attachments-inspector'),
 				icon: media,
 				callback: ([item]) => openAttachmentsReport(item),
 				isEligible: (item) => !!item?.id,
